@@ -1,4 +1,4 @@
-import type { Cryptocurrency, PaginatedResponse, ConversionRate } from "@/types/crypto"
+import type { Cryptocurrency, PaginatedResponse} from "@/types/crypto"
 
 // For demo purposes, we'll add a mock function that would be replaced with real API calls
 export async function getMockCryptocurrencies(limit = 10, offset = 0): Promise<PaginatedResponse<Cryptocurrency>> {
@@ -8,31 +8,56 @@ export async function getMockCryptocurrencies(limit = 10, offset = 0): Promise<P
       id: "bitcoin",
       name: "Bitcoin",
       symbol: "BTC",
-      price: 50000,
+      price: 45000,
+      rank: 1,
+      values: {
+        USD: {
+          price: 45000,
+          marketCap: 850000000000,
+          volume24h: 28000000000,
+          percentChange24h: 2.5,
+          percentChange7d: 5.2,
+          percentChange30d: 10.5,
+          percentChange3m: 15.3,
+          percentChange6m: 25.8
+        }
+      },
       circulatingSupply: 19000000,
-      marketCap: 950000000000,
+      marketCap: 850000000000,
       category: "Currency",
       percentChange24h: 2.5,
-      percentChange7d: -3.2,
-      percentChange30d: 15.7,
-      percentChange3m: 25.4,
-      percentChange6m: 50.1,
+      percentChange7d: 5.2,
+      percentChange30d: 10.5,
+      percentChange3m: 15.3,
+      percentChange6m: 25.8
     },
     {
       id: "ethereum",
       name: "Ethereum",
       symbol: "ETH",
       price: 3000,
+      rank: 2,
+      values: {
+        USD: {
+          price: 3000,
+          marketCap: 350000000000,
+          volume24h: 15000000000,
+          percentChange24h: 3.2,
+          percentChange7d: 6.5,
+          percentChange30d: 12.8,
+          percentChange3m: 18.5,
+          percentChange6m: 30.2
+        }
+      },
       circulatingSupply: 120000000,
-      marketCap: 360000000000,
+      marketCap: 350000000000,
       category: "Smart Contract Platform",
-      percentChange24h: 1.8,
-      percentChange7d: -2.1,
-      percentChange30d: 10.5,
-      percentChange3m: 18.7,
-      percentChange6m: 35.2,
-    },
-    // Add more mock data as needed
+      percentChange24h: 3.2,
+      percentChange7d: 6.5,
+      percentChange30d: 12.8,
+      percentChange3m: 18.5,
+      percentChange6m: 30.2
+    }
   ]
 
   // Generate more mock data
@@ -40,27 +65,40 @@ export async function getMockCryptocurrencies(limit = 10, offset = 0): Promise<P
     const basePrice = Math.random() * 1000 + (Math.random() < 0.1 ? 10000 : 0); // Some higher priced coins
     const marketCap = basePrice * (Math.random() * 100000000 + 1000000); // More realistic market cap
     const volume = marketCap * (Math.random() * 0.2); // Volume as a portion of market cap
+    const percentChange24h = Math.random() * 20 - 10;
+    const percentChange7d = Math.random() * 30 - 15;
+    const percentChange30d = Math.random() * 60 - 30;
+    const percentChange3m = Math.random() * 100 - 50;
+    const percentChange6m = Math.random() * 200 - 100;
     
     mockData.push({
       id: `crypto-${i}`,
       name: `Cryptocurrency ${i}`,
       symbol: `CRY${i}`,
+      price: basePrice,
       rank: i + 1,
       values: {
         USD: {
           price: basePrice,
           marketCap: marketCap,
           volume24h: volume,
-          percentChange24h: Math.random() * 20 - 10,
-          percentChange7d: Math.random() * 30 - 15,
-          percentChange30d: Math.random() * 60 - 30,
-          percentChange3m: Math.random() * 100 - 50,
-          percentChange6m: Math.random() * 200 - 100,
+          percentChange24h,
+          percentChange7d,
+          percentChange30d,
+          percentChange3m,
+          percentChange6m
         }
       },
+      circulatingSupply: Math.floor(Math.random() * 1000000000),
+      marketCap: marketCap,
       category: i % 4 === 0 ? "Currency" : 
                i % 4 === 1 ? "Smart Contract Platform" : 
                i % 4 === 2 ? "DeFi" : "NFT",
+      percentChange24h,
+      percentChange7d,
+      percentChange30d,
+      percentChange3m,
+      percentChange6m
     })
   }
 

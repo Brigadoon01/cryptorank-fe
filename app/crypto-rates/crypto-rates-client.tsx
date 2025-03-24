@@ -63,9 +63,6 @@ const RefreshButton = styled.button`
   }
 `
 
-const RefreshingText = styled.span`
-  color: #3b82f6;
-`
 
 export default function CryptoRatesClient({ initialData, itemsPerPage }: CryptoRatesClientProps) {
   const [offset, setOffset] = React.useState<number>(0)
@@ -81,7 +78,7 @@ export default function CryptoRatesClient({ initialData, itemsPerPage }: CryptoR
   }
 
   const currentData = cryptoData || initialData
-
+ 
   return (
     <Layout>
       <PageHeader>

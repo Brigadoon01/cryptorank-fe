@@ -61,15 +61,6 @@ const TableRow = React.memo(({ crypto }: { crypto: Cryptocurrency }) => {
 TableRow.displayName = 'TableRow'
 
 export default React.memo(function CryptoTable({ cryptocurrencies, total, limit, offset, onPageChangeAction }: CryptoTableProps) {
-  // Handle undefined or null cryptocurrencies
-  if (!cryptocurrencies) {
-    return (
-      <LoadingContainer>
-        <LoadingSpinner />
-      </LoadingContainer>
-    );
-  }
-
   const handlePrevPage = useCallback(() => {
     if (offset - limit >= 0) {
       onPageChangeAction(offset - limit)
@@ -98,19 +89,36 @@ export default React.memo(function CryptoTable({ cryptocurrencies, total, limit,
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
             const pageNum = i + 1
             return (
-              <PageButton key={i} $active={pageNum === currentPage} onClick={() => onPageChangeAction((pageNum - 1) * limit)}>
+              <PageButton 
+                key={i} 
+                $active={pageNum === currentPage} 
+                onClick={() => onPageChangeAction((pageNum - 1) * limit)}
+              >
                 {pageNum}
               </PageButton>
             )
           })}
           {totalPages > 5 && <span>...</span>}
-          <PageButton onClick={handleNextPage} $disabled={offset + limit >= total} disabled={offset + limit >= total}>
+          <PageButton 
+            onClick={handleNextPage} 
+            $disabled={offset + limit >= total} 
+            disabled={offset + limit >= total}
+          >
             Next
           </PageButton>
         </PageButtons>
       </Pagination>
     )
-  }, [total, limit, offset, handlePrevPage, handleNextPage])
+  }, [total, limit, offset, handlePrevPage, handleNextPage, onPageChangeAction])
+
+  // Handle undefined or null cryptocurrencies
+  if (!cryptocurrencies) {
+    return (
+      <LoadingContainer>
+        <LoadingSpinner />
+      </LoadingContainer>
+    );
+  }
 
   return (
     <>

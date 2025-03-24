@@ -21,7 +21,16 @@ import {
   LoadingSpinner
 } from './CurrencyConverter.styles'
 
-const CurrencyOption = React.memo(({ currency }: { currency: any }) => (
+interface CurrencyOptionProps {
+  currency: {
+    id: string;
+    name: string;
+    symbol: string;
+    price: number;
+  }
+}
+
+const CurrencyOption = React.memo(({ currency }: CurrencyOptionProps) => (
   <StyledOption value={currency.id}>
     {`${currency.name} (${currency.symbol}) - $${currency.price.toLocaleString(undefined, { 
       minimumFractionDigits: 2, 
@@ -112,9 +121,9 @@ function CurrencyConverter() {
     setToCurrency(fromCurrency)
   }, [fromCurrency, toCurrency])
 
-  const getSymbolForCurrency = (currencyId: string) => {
+  const getSymbolForCurrency = useCallback((currencyId: string) => {
     return availableCurrencies.find((c) => c.id === currencyId)?.symbol || currencyId
-  }
+  }, [availableCurrencies])
 
   const resultContent = useMemo(() => {
     if (error) {
@@ -145,7 +154,7 @@ function CurrencyConverter() {
       )
     }
     return null
-  }, [error, isLoading, convertedAmount, conversionRate, toCurrency, fromCurrency])
+  }, [error, isLoading, convertedAmount, conversionRate, toCurrency, fromCurrency, getSymbolForCurrency])
 
   return (
     <ConverterContainer>
